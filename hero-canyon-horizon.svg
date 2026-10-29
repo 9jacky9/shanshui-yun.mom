@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 440" width="100%" height="100%" role="img" aria-label="山水云落日山海光桥与流云漫游动态画卷">
+  <defs>
+    <!-- Sky Horizon Gradient -->
+    <linearGradient id="canyonSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2D1B18" />
+      <stop offset="30%" stop-color="#7C2D23" />
+      <stop offset="62%" stop-color="#D9534F" />
+      <stop offset="85%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#FDE68A" />
+    </linearGradient>
+
+    <!-- Sun Glow Radial -->
+    <radialGradient id="sunsetSun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFBEB" stop-opacity="1" />
+      <stop offset="45%" stop-color="#FBBF24" stop-opacity="0.9" />
+      <stop offset="75%" stop-color="#D9534F" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#D9534F" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Distant Range Gradient -->
+    <linearGradient id="farMesa" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#9A342D" />
+      <stop offset="100%" stop-color="#581C17" />
+    </linearGradient>
+
+    <!-- Mid Terracotta Ridge -->
+    <linearGradient id="midRidge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#68231D" />
+      <stop offset="100%" stop-color="#381410" />
+    </linearGradient>
+
+    <!-- Foreground Canyon Cliff -->
+    <linearGradient id="foreCanyon" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3E1914" />
+      <stop offset="100%" stop-color="#1E0E0B" />
+    </linearGradient>
+
+    <!-- River Mirror Gradient -->
+    <linearGradient id="canyonRiver" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#231815" />
+      <stop offset="35%" stop-color="#7C2D12" />
+      <stop offset="50%" stop-color="#D97706" />
+      <stop offset="65%" stop-color="#7C2D12" />
+      <stop offset="100%" stop-color="#231815" />
+    </linearGradient>
+
+    <!-- Light Bridge Glow -->
+    <linearGradient id="bridgeArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.2" />
+      <stop offset="50%" stop-color="#FEF08A" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.25" />
+    </linearGradient>
+
+    <linearGradient id="sageArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6EE7B7" stop-opacity="0.15" />
+      <stop offset="50%" stop-color="#A7F3D0" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#34D399" stop-opacity="0.2" />
+    </linearGradient>
+
+    <filter id="warmGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Motion Paths for Data Light Orbs -->
+    <path id="bridgePath1" d="M 110 295 Q 290 110 475 245" fill="none" />
+    <path id="bridgePath2" d="M 475 245 Q 645 95 815 275" fill="none" />
+    <path id="bridgePath3" d="M 185 320 Q 460 65 745 310" fill="none" />
+    <path id="bridgePath4" d="M 815 275 Q 520 155 245 270" fill="none" />
+  </defs>
+
+  <!-- Rounded Panorama Frame -->
+  <rect width="920" height="440" rx="22" fill="url(#canyonSky)" />
+
+  <!-- Subtle Horizon Grid Rays -->
+  <g stroke="#FDE68A" stroke-opacity="0.12" stroke-width="1">
+    <line x1="460" y1="220" x2="80" y2="40" />
+    <line x1="460" y1="220" x2="260" y2="20" />
+    <line x1="460" y1="220" x2="460" y2="10" />
+    <line x1="460" y1="220" x2="660" y2="20" />
+    <line x1="460" y1="220" x2="840" y2="40" />
+  </g>
+
+  <!-- Pulsing Sunset Halo -->
+  <circle cx="460" cy="215" r="145" fill="url(#sunsetSun)">
+    <animate attributeName="r" values="138;158;138" dur="6s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.85;1;0.85" dur="6s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Core Rising Sun -->
+  <circle cx="460" cy="215" r="68" fill="#FFFBEB" opacity="0.92">
+    <animate attributeName="r" values="66;72;66" dur="4.5s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Drifting Warm Cloud Layer 1 (Upper Left to Right) -->
+  <g fill="#FDE68A" opacity="0.32">
+    <path d="M120 115 C140 102, 175 102, 195 114 C215 105, 245 108, 260 122 L105 122 Z" />
+    <path d="M590 88 C615 74, 650 76, 670 90 C690 80, 720 84, 735 96 L575 96 Z" />
+    <animateTransform attributeName="transform" type="translate" values="-35 0; 45 0; -35 0" dur="18s" repeatCount="indefinite" />
+  </g>
+
+  <!-- Drifting Warm Cloud Layer 2 (Mid Right to Left) -->
+  <g fill="#FDBA74" opacity="0.4">
+    <path d="M270 155 C295 140, 335 142, 355 156 C380 145, 410 149, 425 162 L250 162 Z" />
+    <path d="M680 142 C700 130, 735 130, 755 144 C775 135, 800 140, 815 150 L665 150 Z" />
+    <animateTransform attributeName="transform" type="translate" values="30 0; -40 0; 30 0" dur="14s" repeatCount="indefinite" />
+  </g>
+
+  <!-- Far Terracotta Canyon Range -->
+  <path d="M0 300 L65 255 L110 295 L195 215 L245 270 L335 190 L410 250 L475 245 L555 180 L635 240 L715 195 L815 275 L875 235 L920 270 L920 370 L0 370 Z" fill="url(#farMesa)" />
+
+  <!-- Mid Terraced Ridge -->
+  <path d="M0 335 L95 285 L185 320 L275 255 L370 305 L465 268 L560 312 L665 250 L745 310 L835 278 L920 315 L920 385 L0 385 Z" fill="url(#midRidge)" />
+
+  <!-- Luminous Light Bridges Arching Across Canyon Peaks -->
+  <g filter="url(#warmGlow)">
+    <!-- Arc 1: West Peak to Center Hub -->
+    <use href="#bridgePath1" stroke="url(#bridgeArcGrad)" stroke-width="3.2" stroke-dasharray="8 5">
+      <animate attributeName="stroke-dashoffset" from="130" to="0" dur="5s" repeatCount="indefinite" />
+    </use>
+    <!-- Arc 2: Center Hub to East Peak -->
+    <use href="#bridgePath2" stroke="url(#bridgeArcGrad)" stroke-width="3.2" stroke-dasharray="8 5">
+      <animate attributeName="stroke-dashoffset" from="130" to="0" dur="4.5s" repeatCount="indefinite" />
+    </use>
+    <!-- Arc 3: Grand Trans-Horizon Arch -->
+    <use href="#bridgePath3" stroke="url(#bridgeArcGrad)" stroke-width="2.5" />
+    <!-- Arc 4: Sage Valley Return Channel -->
+    <use href="#bridgePath4" stroke="url(#sageArcGrad)" stroke-width="2.2" stroke-dasharray="6 6">
+      <animate attributeName="stroke-dashoffset" from="0" to="120" dur="5.5s" repeatCount="indefinite" />
+    </use>
+  </g>
+
+  <!-- Gliding Data Orbs Along the Canyon Light Bridges -->
+  <g filter="url(#warmGlow)">
+    <circle r="5.5" fill="#FFFBEB">
+      <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#bridgePath1" />
+      </animateMotion>
+    </circle>
+    <circle r="4.5" fill="#FBBF24">
+      <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#bridgePath1" />
+      </animateMotion>
+    </circle>
+
+    <circle r="5.5" fill="#FFFBEB">
+      <animateMotion dur="3.4s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#bridgePath2" />
+      </animateMotion>
+    </circle>
+    <circle r="4.5" fill="#F59E0B">
+      <animateMotion dur="3.4s" begin="1.7s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#bridgePath2" />
+      </animateMotion>
+    </circle>
+
+    <circle r="6.5" fill="#FEF08A">
+      <animateMotion dur="5.2s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#bridgePath3" />
+      </animateMotion>
+    </circle>
+    <circle r="5" fill="#A7F3D0">
+      <animateMotion dur="4.4s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#bridgePath4" />
+      </animateMotion>
+    </circle>
+  </g>
+
+  <!-- Peak Relay Beacons (Warm Relay Towers on Mountain Crests) -->
+  <g>
+    <!-- Beacon 1: (110, 295) -->
+    <circle cx="110" cy="295" r="6" fill="#FDE68A" />
+    <circle cx="110" cy="295" r="12" fill="none" stroke="#FDE68A" stroke-width="1.5">
+      <animate attributeName="r" values="6;20" dur="2.8s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.9;0" dur="2.8s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Beacon 2: (245, 270) -->
+    <circle cx="245" cy="270" r="5.5" fill="#A7F3D0" />
+    <circle cx="245" cy="270" r="11" fill="none" stroke="#A7F3D0" stroke-width="1.5">
+      <animate attributeName="r" values="6;18" dur="3.1s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.85;0" dur="3.1s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Beacon 3 Central Peak: (475, 245) -->
+    <circle cx="475" cy="245" r="7.5" fill="#FFFBEB" />
+    <circle cx="475" cy="245" r="14" fill="none" stroke="#FBBF24" stroke-width="2">
+      <animate attributeName="r" values="7;26" dur="2.4s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="1;0" dur="2.4s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Beacon 4: (745, 310) -->
+    <circle cx="745" cy="310" r="6" fill="#FDE68A" />
+    <circle cx="745" cy="310" r="12" fill="none" stroke="#FDE68A" stroke-width="1.5">
+      <animate attributeName="r" values="6;19" dur="2.9s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.9;0" dur="2.9s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Beacon 5: (815, 275) -->
+    <circle cx="815" cy="275" r="6" fill="#FBBF24" />
+    <circle cx="815" cy="275" r="12" fill="none" stroke="#FBBF24" stroke-width="1.5">
+      <animate attributeName="r" values="6;20" dur="2.6s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.9;0" dur="2.6s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <!-- Foreground Canyon Silhouette & Shimmering River Mirror -->
+  <rect x="0" y="362" width="920" height="78" rx="12" fill="url(#canyonRiver)" />
+
+  <path d="M0 355 L140 328 L235 362 L0 368 Z" fill="url(#foreCanyon)" />
+  <path d="M920 348 L760 322 L665 362 L920 368 Z" fill="url(#foreCanyon)" />
+
+  <!-- Shimmering Water Ripples in the Canyon River -->
+  <g fill="#FDE68A" opacity="0.65">
+    <rect x="395" y="374" width="130" height="3" rx="1.5">
+      <animate attributeName="width" values="110;145;110" dur="3.2s" repeatCount="indefinite" />
+      <animate attributeName="x" values="405;387;405" dur="3.2s" repeatCount="indefinite" />
+    </rect>
+    <rect x="415" y="386" width="90" height="2.5" rx="1.2">
+      <animate attributeName="width" values="95;65;95" dur="2.7s" repeatCount="indefinite" />
+      <animate attributeName="x" values="412;427;412" dur="2.7s" repeatCount="indefinite" />
+    </rect>
+    <rect x="370" y="398" width="180" height="2.5" rx="1.2" opacity="0.45">
+      <animate attributeName="width" values="160;195;160" dur="4s" repeatCount="indefinite" />
+      <animate attributeName="x" values="380;362;380" dur="4s" repeatCount="indefinite" />
+    </rect>
+    <rect x="430" y="410" width="60" height="2" rx="1" opacity="0.4">
+      <animate attributeName="opacity" values="0.25;0.75;0.25" dur="2.2s" repeatCount="indefinite" />
+    </rect>
+  </g>
+
+  <!-- Subtle Horizon Caption Badges inside Panorama -->
+  <g transform="translate(26, 26)">
+    <rect width="176" height="34" rx="17" fill="#231815" fill-opacity="0.68" stroke="#FDE68A" stroke-opacity="0.35" />
+    <circle cx="20" cy="17" r="4.5" fill="#34D399">
+      <animate attributeName="opacity" values="1;0.35;1" dur="1.8s" repeatCount="indefinite" />
+    </circle>
+    <text x="34" y="22" fill="#FFF8F1" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" font-weight="600">山海光桥 · 全天候直连</text>
+  </g>
+
+  <g transform="translate(706, 26)">
+    <rect width="188" height="34" rx="17" fill="#231815" fill-opacity="0.68" stroke="#FDE68A" stroke-opacity="0.35" />
+    <circle cx="20" cy="17" r="4.5" fill="#FBBF24" />
+    <text x="34" y="22" fill="#FFF8F1" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" font-weight="600">BGP 智选 · 跨洋专线护航</text>
+  </g>
+</svg>
