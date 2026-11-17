@@ -1,113 +1,110 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>做直播推流：上行带宽、码率与 OBS 的设置思路 - 山海漫谈</title>
-  <meta name="description" content="用 OBS 向海外平台推流，画面卡顿或断流怎么办？从上行带宽测算、码率设置、编码选项到备用方案，给出一套实用的设置思路。">
-  <link rel="canonical" href="https://shanshui-yun.mom/cross-border-live-broadcast-uplink.html">
-  <meta property="og:type" content="article">
-  <meta property="og:site_name" content="山水云">
-  <meta property="og:title" content="做直播推流：上行带宽、码率与 OBS 的设置思路 - 山海漫谈">
-  <meta property="og:description" content="用 OBS 向海外平台推流，画面卡顿或断流怎么办？从上行带宽测算、码率设置、编码选项到备用方案，给出一套实用的设置思路。">
-  <meta property="og:url" content="https://shanshui-yun.mom/cross-border-live-broadcast-uplink.html">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OBS直播掉帧如何定位：上行、编码与观众缓冲分开处理</title>
+<meta content="OBS直播掉帧如何定位：上行、编码与观众缓冲分开处理，从具体工作流梳理设置顺序、观察指标与异常处理，提供可重复的操作方法和适用边界。" name="description"/>
+<link href="https://shanshui-yun.mom/cross-border-live-broadcast-uplink.html" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="山水云" property="og:site_name"/>
+<meta content="OBS直播掉帧如何定位：上行、编码与观众缓冲分开处理" property="og:title"/>
+<meta content="OBS直播掉帧如何定位：上行、编码与观众缓冲分开处理，从具体工作流梳理设置顺序、观察指标与异常处理，提供可重复的操作方法和适用边界。" property="og:description"/>
+<meta content="https://shanshui-yun.mom/cross-border-live-broadcast-uplink.html" property="og:url"/>
+<link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="brand-logo" aria-label="山水云首页">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="山水云落日山峦流云标志">
-          <defs>
-            <linearGradient id="logoBadgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#D9534F" />
-              <stop offset="100%" stop-color="#D97706" />
-            </linearGradient>
-          </defs>
-          <rect width="48" height="48" rx="12" fill="url(#logoBadgeGrad)" />
-          <circle cx="24" cy="18" r="8" fill="#FEF08A" opacity="0.92" />
-          <path d="M7 35 L17 20 L25 30 L32 18 L41 35 Z" fill="#231815" opacity="0.88" />
-          <path d="M10 38 C16 35, 22 40, 28 37 C33 35, 37 38, 40 37" stroke="#FFF8F1" stroke-width="2.4" stroke-linecap="round" />
-          <path d="M13 14 C16 11, 21 11, 24 13 C27 11, 32 11, 35 14" stroke="#FFF8F1" stroke-width="2" stroke-linecap="round" opacity="0.9" />
-        </svg>
-        <div>
+<header class="site-header">
+<div class="container header-inner">
+<a aria-label="山水云首页" class="brand-logo" href="index.html">
+<svg aria-label="山水云落日山峦流云标志" fill="none" role="img" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="logoBadgeGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#D9534F"></stop>
+<stop offset="100%" stop-color="#D97706"></stop>
+</lineargradient>
+</defs>
+<rect fill="url(#logoBadgeGrad)" height="48" rx="12" width="48"></rect>
+<circle cx="24" cy="18" fill="#FEF08A" opacity="0.92" r="8"></circle>
+<path d="M7 35 L17 20 L25 30 L32 18 L41 35 Z" fill="#231815" opacity="0.88"></path>
+<path d="M10 38 C16 35, 22 40, 28 37 C33 35, 37 38, 40 37" stroke="#FFF8F1" stroke-linecap="round" stroke-width="2.4"></path>
+<path d="M13 14 C16 11, 21 11, 24 13 C27 11, 32 11, 35 14" opacity="0.9" stroke="#FFF8F1" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+<div>
           山水云
           <span class="brand-sub">SHANSHUI HORIZON CLOUD</span>
-        </div>
-      </a>
-      <nav class="main-nav" aria-label="主导航">
-        <a href="index.html">首页</a>
-        <a href="index.html#advantages">核心优势</a>
-        <a href="index.html#streaming">流媒体与AI</a>
-        <a href="index.html#pricing">尊享方案</a>
-        <a href="index.html#faq">常见解答</a>
-        <a href="horizon-journal.html" class="nav-hub-pill active">山海漫谈</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="article-container">
-    <header class="article-header">
-      <div class="article-meta">
-        <span class="article-cat">内容创作</span>
-        <span>发布日期：2026-11-13</span>
-        <span>作者：山水云使用手记</span>
-      </div>
-      <h1>做直播推流：上行带宽、码率与 OBS 的设置思路</h1>
-    </header>
-
-    <article class="article-body">
-<h2>一、推流看的是上行</h2>
-<p>直播推流使用的是上行带宽。先测一下宽带上行速度，并在不同时段重复测试，确认它是否稳定。</p>
-<h2>二、码率别设得太满</h2>
-<p>一个常见的做法是把码率设为实测上行带宽的六到七成，留出余量应对波动。1080p 直播的码率通常在几 Mbps，具体取决于平台建议。</p>
-<h2>三、OBS 的几项设置</h2>
-<ul><li>使用固定码率，避免大幅波动。</li><li>关键帧间隔按平台要求设置，常见为 2 秒。</li><li>编码器优先选择硬件编码，减轻电脑负担。</li></ul>
-<h2>四、线路与节点</h2>
-<p>推流时尽量使用稳定的有线网络，并固定一个延迟波动小的节点，避免推流过程中切换。</p>
-<h2>五、准备备用方案</h2>
-<p>提前准备一条备用网络，比如手机热点，并测试好能否正常推流。开播前十分钟关闭其他占用上行的软件。</p>
-<h2>小结</h2>
-<p>推流稳定的关键是留余量、固定线路、备好后路。先小范围试播，再正式开播。</p>
-      <div class="article-cta-box">
-        <h3>稳锁高码率推流，引爆全球跨境直播间</h3>
-        <p>山水云霞光版与星河版提供对称高上行 IEPL 专线与高信誉度原生落地 IP，让跨境推流稳如磐石。</p>
-        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" class="btn-primary" rel="nofollow" target="_blank">立即开通山水云直播加速方案</a>
-      </div>
-    </article>
-
-    <section style="margin-top: 40px;">
-      <h2 class="section-title" style="font-size: 1.4rem; margin-bottom: 20px;">延伸阅读 · 相关技术专栏</h2>
-      <div class="article-cards-grid" style="padding: 0;">
-        <article class="article-card">
-          <div>
-            <span class="article-cat">家庭组网架构</span>
-            <h3 style="margin: 10px 0;"><a href="router-transparent-gateway-deployment.html">NAS 与家庭服务器的远程访问：DDNS、端口与安全的基本做法</a></h3>
-          </div>
-          <a href="router-transparent-gateway-deployment.html" class="read-more-link">阅读全文 &rarr;</a>
-        </article>
-        <article class="article-card">
-          <div>
-            <span class="article-cat">数字视听生活</span>
-            <h3 style="margin: 10px 0;"><a href="podcast-lossless-audio-streaming.html">听播客、上网课怎样更稳：缓存、节点与下载的搭配</a></h3>
-          </div>
-          <a href="podcast-lossless-audio-streaming.html" class="read-more-link">阅读全文 &rarr;</a>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <nav class="footer-links" aria-label="页脚导航">
-        <a href="sitemap.html">网站地图</a>
-        <a href="about.html">关于我们</a>
-        <a href="terms.html">服务条款</a>
-        <a href="privacy.html">隐私政策</a>
-      </nav>
-    </div>
-  </footer>
-
+</div>
+</a>
+<nav aria-label="主导航" class="main-nav">
+<a href="index.html">首页</a>
+<a href="index.html#advantages">核心优势</a>
+<a href="index.html#streaming">流媒体与AI</a>
+<a href="index.html#pricing">尊享方案</a>
+<a href="index.html#faq">常见解答</a>
+<a class="nav-hub-pill active" href="horizon-journal.html">山海漫谈</a>
+</nav>
+</div>
+</header>
+<main class="article-container">
+<header class="article-header">
+<div class="article-meta">
+<span class="article-cat">内容创作</span>
+<span>发布日期：2026-11-13</span>
+<span>作者：山水云使用手记</span>
+</div>
+<h1>OBS直播掉帧如何定位：上行、编码与观众缓冲分开处理</h1>
+</header>
+<article class="article-body"><div data-swc-article-body="2026-11-16"><h2>先问掉帧发生在哪一端</h2>
+<p>直播不流畅至少可能有三种不同表现：电脑来不及生成画面、编码跟不上，或者已经编码的数据无法稳定发送到平台。观众端缓冲又可能是另一条问题链。开始排查时，把发送端统计与观众看到的现象同时记录，不能看到画面卡顿就立即更换网络节点或提高码率。</p>
+<p>使用平台允许的测试场次，准备一段普通画面与声音，不包含客户或个人资料。先在本地录制同样场景，观察录制文件是否流畅。如果本地文件已经卡顿，应先处理画面复杂度、编码设置和设备负载；这时增加网络带宽通常无法解决根本问题。</p>
+<h2>从OBS统计区分异常类别</h2>
+<p>打开软件提供的统计信息，观察渲染、编码与网络相关计数，具体名称随版本可能变化。渲染延迟提示画面生成阶段有压力，编码异常需要检查编码器和输出负载，网络丢帧则指向电脑到直播接收服务器之间的传输。不要把不同计数相加后统称为网络丢包。</p>
+<p>记录异常开始时间，并与系统资源占用对应。若切换某个复杂场景后立刻出现问题，先减少浏览器源、滤镜或高分辨率素材；若所有场景都正常但发送速率波动，再进入上行排查。保留原场景集合和配置副本，可以在试验失败后快速恢复。</p>
+<h2>测试上行而不是只看下载</h2>
+<p>家庭测速中突出的数字往往是下载速度，直播需要的是持续可用上行。选择合适时段测量上传表现，并确认测试时家庭没有其他大上传任务。一次短时间测速不能代表整场直播，因此还要观察正式使用时的波动。不要把套餐标称带宽直接当成编码器可以持续占满的预算。</p>
+<p>输出码率应参考直播平台当前建议，并为音频、其他设备和波动留出余量。先使用较保守的分辨率与帧率跑通流程，再逐步调整。将码率提高到网络上限，可能让本地队列持续积压，造成连接不稳。若降低输出后异常明显减少，先保留稳定设置，再调查瓶颈来源。</p>
+<h2>用有线连接排除无线干扰</h2>
+<p>条件允许时，使用可靠的有线连接进行一次对照，避免把无线信号和上游路径混在一起。检查网线接口和协商速度，停止后台云盘上传与系统更新。只在无线环境异常时，应重点处理接入点距离、频道干扰和共享负载，而不是反复调整直播平台密钥。</p>
+<p>如果必须无线直播，固定设备位置，并在观众高峰前做相同地点的测试。不要让电脑在多个接入点间频繁漫游，也不要把移动热点长时间高负载当作无条件可靠的备用方案。热点的流量额度、电量和信号变化都可能在直播中造成新的中断。</p>
+<h2>核对接收入口与网络出口</h2>
+<p>直播平台可能提供不同接收入口，选择应依据其公开建议与实际测试，而不是简单猜测最近城市。比较时固定画面、编码和时段，只改变一个入口。若使用获准的网络加速方案，也应保持其他条件不变，记录连接方式与结果，不能把编码器调整带来的改善算到线路上。</p>
+<p>一份实用的<a href="https://dajichang.mom/">OBS直播掉帧排查</a>记录，应同时包含接收入口、上行状态、网络丢帧和本地编码情况。OBS官方连接故障指南把网络丢帧与电脑到平台接收服务器的路径联系起来，但这不等于每次都由某一家运营商造成，需要通过对照逐步缩小范围。</p>
+<h2>发送正常但观众仍然缓冲</h2>
+<p>当发送端没有明显异常，而部分观众反馈卡顿，可能涉及平台分发、观众网络或终端能力。请不同网络的少量测试观众查看同一场次，并记录是否所有人同时出现问题。不要因为一个观众使用弱信号移动网络，就把主播端输出无限提高，那可能反而增加观看负担。</p>
+<p>查看平台是否提供多档画质，以及观众是否有条件切换到较低档位。若只有高画质缓冲，优先考虑分发与接收端的承受能力。若所有观看端都在同一时刻停止，再比较平台状态和发送日志。发送端稳定与观看端稳定是两项独立验收，不能相互替代。</p>
+<h2>断线后的处理要提前演练</h2>
+<p>在测试场次验证短暂中断后的恢复方式，确认软件重连、平台场次和音视频同步是否符合预期。重要直播准备简单备用画面与沟通方案，避免出错时同时更改多个设置。不要反复创建新直播密钥作为通用修复，密钥泄露时才按平台流程撤销和重建。</p>
+<p>结束后保存本次日志与配置版本，并遮盖直播密钥、账户标识及私人设备路径。下次出现问题时，先比较最近变更，例如软件升级、新增采集设备或换了路由器。能够把问题与可重复条件联系起来，才有机会稳定改善直播质量，而不是每场开播前靠运气试一套参数。</p></div><div class="article-original-promotion"><a class="btn-primary" href="https://ww012.twilightaff.com/#/?code=A56DH1Af" rel="nofollow" target="_blank">立即开通山水云直播加速方案</a></div></article>
+<section style="margin-top: 40px;">
+<h2 class="section-title" style="font-size: 1.4rem; margin-bottom: 20px;">延伸阅读 · 相关技术专栏</h2>
+<div class="article-cards-grid" style="padding: 0;">
+<article class="article-card">
+<div>
+<span class="article-cat">家庭组网架构</span>
+<h3 style="margin: 10px 0;"><a href="router-transparent-gateway-deployment.html">NAS 与家庭服务器的远程访问：DDNS、端口与安全的基本做法</a></h3>
+</div>
+<a class="read-more-link" href="router-transparent-gateway-deployment.html">阅读全文 →</a>
+</article>
+<article class="article-card">
+<div>
+<span class="article-cat">数字视听生活</span>
+<h3 style="margin: 10px 0;"><a href="podcast-lossless-audio-streaming.html">听播客、上网课怎样更稳：缓存、节点与下载的搭配</a></h3>
+</div>
+<a class="read-more-link" href="podcast-lossless-audio-streaming.html">阅读全文 →</a>
+</article>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="container">
+<nav aria-label="页脚导航" class="footer-links">
+<a href="sitemap.html">网站地图</a>
+<a href="about.html">关于我们</a>
+<a href="terms.html">服务条款</a>
+<a href="privacy.html">隐私政策</a>
+</nav>
+</div>
+</footer>
 </body>
 </html>
